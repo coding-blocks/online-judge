@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <!-- Bootstrap -->
+        <link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
+        <link href="stylesheets/style.css" rel="stylesheet" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var signupForm = $("#signup-form");
+                signupForm.on("submit", function(e) {
+                    console.log("submit");
+                    e.preventDefault();
+                    signupForm.ajaxSubmit({
+                        type: "post",
+                        success: function(data) {
+                            console.log("derp = " + JSON.stringify(data));
+                            window.location = "/login"
+                        },
+                        error: function() {
+                            console.log("Error");
+                        }
+                    });
+                });
+
+                $("#loginButton").on("click", function() {
+                    window.location = "/login";
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>CodingBlocks Online Judge - Sign Up</h1>
+        <form id="signup-form" role = "form" action="/api/signup" method="post" >
+        	<div class="form-group">
+        	   	<label for="first_name">First Name</label>
+      		    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name">
+   			</div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+            </div>
+            <div class="form-group">
+                <label for="github_url">Github Url</label>
+                <input type="text" class="form-control" id="github_url" name="github_url" placeholder="Github Url">
+            </div>
+            <div class="form-group">
+                <button type="submit" class ="btn btn-primary">Register</button>
+            </div>
+        </form>
+        <button type="button" id="loginButton" class ="btn btn-primary" styles="margin-top:10px;">Proceed to login</button>
+      
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
