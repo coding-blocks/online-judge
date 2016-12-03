@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Question <%= num %></title>
+    	<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <!-- Bootstrap -->
+        <link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
+        <link href="../../stylesheets/style.css" rel="stylesheet" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
+        <script type="text/javascript">
+        	$(document).ready(function() {
+        		var questionBody = $("#question-body");
+        		$.get('/api/question/<%= id %>', function (data) {
+        			console.log(JSON.stringify(data));
+        			var question = data.data;
+        			var questionHeader = "<div class=\"panel-heading\">Question <%= num %>: " + question.title + "</div>";
+        			var descHeader = "<div class=\"panel-body\">" + question.description + "</div>";
+        			questionBody.append(questionHeader);
+        			questionBody.append(descHeader);
+        		});
+        	});
+        </script>
+    </head>
+    <body>
+    	<div class="panel panel-default" id="question-body">
+    		
+    	</div>
+    </body>
+</html>

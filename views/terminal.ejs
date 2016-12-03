@@ -10,11 +10,29 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script>
         <script type="text/javascript">
-        	
+        	$(document).ready(function() {
+                $.get("/api/questions", function(data) {
+                    console.log("data = " + JSON.stringify(data));
+                    var questions = data.data;
+                    var questionsDom = $("#question-group");
+                    var toAppend = "";
+                    for (var i = 0; i < questions.length; ++i) {
+                        var question = questions[i];
+                        toAppend += "<a href=\"/question/" + question._id + "/" + i+1 + "\"";
+                        toAppend += "class=\"list-group-item\">Question " + (i+1) + ": " + question.title + "</a>";
+                        questionsDom.append(toAppend);
+                    }
+                }).fail(function() {
+                    console.log("request failed");
+                });
+            });
         </script>
     </head>
     <body>
     	<h1>Assignments</h1>
-    	
+    	<div class="list-group" id="question-group">
+            <a href="#" class="list-group-item">Question 1: Hello</li>
+            <a href="#" class="list-group-item">Question 2: static text</li>
+        </ul>
     </body>
 </html>

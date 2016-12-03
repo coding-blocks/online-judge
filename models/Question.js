@@ -9,8 +9,9 @@ var QuestionSchema = new mongoose.Schema({
   title: String,
   decription: String,
   training_data: String,
-  max_score: String,
+  max_score: Number,
   expected_output: String,
+  assignment_id: Number,
   updated_at: { type: Date, default: Date.now },
 });
 

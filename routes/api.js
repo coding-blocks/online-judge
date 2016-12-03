@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/User.js');
+var Question = require('../models/Question.js');
 
 router.post('/signup', function(req, res, next) {
 	User.create(req.body, function(err, post){
@@ -12,8 +13,8 @@ router.post('/signup', function(req, res, next) {
 		res.setHeader("Content-Type", "text/json");
 		res.send(JSON.stringify({result: "success"}));
 	});
+
 	console.log("data = " + JSON.stringify(req.body));
-    console.log("data = " + JSON.stringify(req.body.email));
 });
 
 router.post('/login', function(req, res, next) {
@@ -28,6 +29,24 @@ router.post('/login', function(req, res, next) {
         } else {
             res.send(JSON.stringify({result: "error"}));
         }
+    });
+});
+
+router.get('/questions', function(req, res, next) {
+    Question.find({assignment_id: 1}, function(err, docs) {
+        res.setHeader("Content-Type", "text/json");
+        res.send(JSON.stringify({result: "success", data: docs}));
+    });
+});
+
+router.get('/question/:id', function(req, res, next) {
+    Question.findOne({assignment_id: 1, _id: req.params.id}, function(err, doc) {
+        if (err) {
+            console.log("error = " + err);
+            next(err);
+        }
+        res.setHeader("Content-Type", "text/json");
+        res.send(JSON.stringify({result: "success", data: doc}));
     });
 });
 

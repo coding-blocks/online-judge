@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
         });
         res.render('terminal', { username: sess.username });
     } else {
+        console.log("session variable in not set in /");
         res.render('index', { title: 'CodingBlocks Online Judge' });
     }
 });
@@ -27,6 +28,17 @@ router.get('/login', function(req, res, next) {
 	} else {
 		res.render('login', {title: 'Login'});
 	}
+});
+
+router.get('/question/:id/:num', function(req, res, next) {
+    var sess = req.session;
+    if (sess.username) {
+        console.log("id = " + req.param.id);
+        res.render('question', {id: req.params.id, num: req.params.num});
+    } else {
+        //not logged in
+        res.redirect('/');
+    }
 });
 
 module.exports = router;
