@@ -50,4 +50,22 @@ router.get('/question/:id', function(req, res, next) {
     });
 });
 
+router.post('/submission/:id/upload', function(req, res, next) {
+    res.setHeader("Content-Type", "text/json");
+    if (!req.files) {
+        res.send(JSON.stringify({result:"error"}));
+        console.log("no file uploaded");
+        return;
+    }
+    var submission = req.files.userOutput;
+    submission.mv("./public/submissions/" + req.params.id, function(err) {
+        if (err) {
+            console.log("error while moving the file = " + err);
+            res.send(JSON.stringify({result:"error"}));
+        } else {
+            res.send(JSON.stringify({result: "success"}));
+        }
+    });
+});
+
 module.exports = router;

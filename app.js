@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var fileUpload = require('express-fileupload');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({resave: true, saveUninitialized: true, secret: 'codeyourway', cookie: { maxAge: 60000 }}));
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);

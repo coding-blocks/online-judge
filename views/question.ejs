@@ -1,31 +1,64 @@
 <!DOCTYPE html>
 <html>
     <head>
-    	<title>Question <%= num %></title>
-    	<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <title>Question <%= num %></title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
         <!-- Bootstrap -->
         <link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
         <link href="../../stylesheets/style.css" rel="stylesheet" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script>
+        <script src="http://www.jqueryscript.net/demo/Android-Toast-style-jQuery-Notification-Plugin-dpToast/src/jquery.dpToast.js"></script>
         <script type="text/javascript">
-        	$(document).ready(function() {
-        		var questionBody = $("#question-body");
-        		$.get('/api/question/<%= id %>', function (data) {
-        			console.log(JSON.stringify(data));
-        			var question = data.data;
-        			var questionHeader = "<div class=\"panel-heading\">Question <%= num %>: " + question.title + "</div>";
-        			var descHeader = "<div class=\"panel-body\">" + question.description + "</div>";
-        			questionBody.append(questionHeader);
-        			questionBody.append(descHeader);
-        		});
-        	});
+            $(document).ready(function() {
+                var questionBody = $("#question-body");
+                $.get('/api/question/<%= id %>', function (data) {
+                    console.log(JSON.stringify(data));
+                    var question = data.data;
+                    var questionHeader = "<div class=\"panel-heading\">Question <%= num %>: " + question.title + "</div>";
+                    var descHeader = "<div class=\"panel-body\">" + question.description + "</div>";
+                    questionBody.append(questionHeader);
+                    questionBody.append(descHeader);
+                });
+                var uploadForm = $("#outputUploadForm");
+                uploadForm.on('submit', function(e) {
+                    e.preventDefault();
+                    uploadForm.ajaxSubmit({
+                        type: "post",
+                        success: function(data) {
+                            console.log("derp = " + JSON.stringify(data));
+                            $.fn.dpToast("Upload Complete");
+                        },
+                        error: function() {
+                            console.log("Error");
+                            $.fn.dpToast("Upload Error");
+                        }
+                    });
+                });
+            });
         </script>
     </head>
     <body>
-    	<div class="panel panel-default" id="question-body">
-    		
-    	</div>
+        <div class="panel panel-default" id="question-body">
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Submit your code</div>
+            <div class="panel-body">
+                <form ref="uploadForm"
+                    id="outputUploadForm"
+                    encType="multipart/form-data"
+                    method="post"
+                    action="/api/submission/<%= id %>/upload" >
+                    <div class="form-group">
+                        <input type="file" name="userOutput" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" name="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
     </body>
 </html>
