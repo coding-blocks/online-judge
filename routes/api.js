@@ -5,7 +5,10 @@ var User = require('../models/User.js');
 
 router.post('/signup', function(req, res, next) {
 	User.create(req.body, function(err, post){
-		if (err) return next(err);
+		if (err) {
+            console.log("Error = " + err);
+            return next(err)
+        };
 		res.setHeader("Content-Type", "text/json");
 		res.send(JSON.stringify({result: "success"}));
 	});
@@ -19,6 +22,8 @@ router.post('/login', function(req, res, next) {
         console.log("count = " + count);
         res.setHeader("Content-Type", "text/json");
         if (count == 1) {
+            var sess = req.session;
+            sess.username = req.body.username; //save username in the session variable
         	res.send(JSON.stringify({result: "success"}));
         } else {
             res.send(JSON.stringify({result: "error"}));
