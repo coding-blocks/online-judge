@@ -41,4 +41,9 @@ router.get('/question/:id/:num', function(req, res, next) {
     }
 });
 
+router.get('/logout', function(req, res, next) {
+    delete req.session.username;
+    res.redirect('/');
+});
+
 module.exports = router;
