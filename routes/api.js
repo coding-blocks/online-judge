@@ -8,7 +8,7 @@ router.post('/signup', function(req, res, next) {
 	User.create(req.body, function(err, post){
 		if (err) {
             console.log("Error = " + err);
-            return next(err)
+            return next(err);
         };
 		res.setHeader("Content-Type", "text/json");
 		res.send(JSON.stringify({result: "success"}));
