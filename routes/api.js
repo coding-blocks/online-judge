@@ -3,6 +3,7 @@ var router = express.Router();
 
 var User = require('../models/User.js');
 var Question = require('../models/Question.js');
+var Submission = require('../models/Submission.js');
 
 router.post('/signup', function(req, res, next) {
 	User.create(req.body, function(err, post){
@@ -50,7 +51,7 @@ router.get('/question/:id', function(req, res, next) {
     });
 });
 
-router.post('/submission/:id/upload', function(req, res, next) {
+router.post('/submission/:id/upload/:user', function(req, res, next) {
     res.setHeader("Content-Type", "text/json");
     if (!req.files) {
         res.send(JSON.stringify({result:"error"}));
@@ -58,18 +59,26 @@ router.post('/submission/:id/upload', function(req, res, next) {
         return;
     }
     var submission = req.files.userOutput;
-    submission.mv("./public/submissions/" + req.params.id, function(err) {
-        if (err) {
-            console.log("error while moving the file = " + err);
-            res.send(JSON.stringify({result:"error"}));
-        } else {
-            res.send(JSON.stringify({result: "success"}));
-        }
+    var sub = new Submission({
+        user: req.params.user,
+        question_id: req.params.id,
     });
+    sub.save(function(err) {
+        submission.mv("./public/submissions/" + sub._id, function(err) {
+            if (err) {
+                console.log("error while moving the file = " + err);
+                res.send(JSON.stringify({result:"error"}));
+            } else {
+                res.send(JSON.stringify({result: "success"}));
+            }
+        });
+    });
+    
 });
 
 router.get('/leaderboard/:id', function(req, res, next) {
     res.setHeader("Content-Type", "text/json");
+
 });
 
 module.exports = router;

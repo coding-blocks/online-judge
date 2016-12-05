@@ -34,7 +34,7 @@ router.get('/question/:id/:num', function(req, res, next) {
     var sess = req.session;
     if (sess.username) {
         console.log("id = " + req.param.id);
-        res.render('question', {id: req.params.id, num: req.params.num});
+        res.render('question', {id: req.params.id, num: req.params.num, username: sess.username});
     } else {
         //not logged in
         res.redirect('/');
