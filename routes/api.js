@@ -6,14 +6,23 @@ var Question = require('../models/Question.js');
 var Submission = require('../models/Submission.js');
 
 router.post('/signup', function(req, res, next) {
-	User.create(req.body, function(err, post){
-		if (err) {
-            console.log("Error = " + err);
-            return next(err);
-        };
-		res.setHeader("Content-Type", "text/json");
-		res.send(JSON.stringify({result: "success"}));
-	});
+    res.setHeader("Content-Type", "text/json");
+    User.count({'username' : req.body.username}, function(err, count) {
+        if (err) return next(err);
+        if (count > 0) {
+            res.send(JSON.stringify({result: "error", error: "Username already taken."}));
+            return;
+        }
+        User.create(req.body, function(err, post){
+            if (err) {
+                console.log("Error = " + err);
+                return next(err);
+            };
+            res.setHeader("Content-Type", "text/json");
+            res.send(JSON.stringify({result: "success"}));
+        });
+    });
+	
 
 	console.log("data = " + JSON.stringify(req.body));
 });

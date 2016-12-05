@@ -12,7 +12,10 @@
                     signupForm.ajaxSubmit({
                         type: "post",
                         success: function(data) {
-                            console.log("derp = " + JSON.stringify(data));
+                            if (data.result != "success") {
+                                $.fn.dpToast(data.error);
+                                return;
+                            }
                             window.location = "/login"
                         },
                         error: function() {
@@ -59,8 +62,5 @@
             </div>
         </form>
         <button type="button" id="loginButton" class ="btn btn-primary" styles="margin-top:10px;">Proceed to login</button>
-      
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>
