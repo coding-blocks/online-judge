@@ -4,6 +4,24 @@ var router = express.Router();
 var User = require('../models/User.js');
 var Question = require('../models/Question.js');
 var Submission = require('../models/Submission.js');
+var Scorer = require('../util/calc-score.js');
+
+function score_util(lab_true, lab_pred) {
+    // check if the arrays have same length
+    if (lab_true.length == lab_pred.length) {
+        
+        score = 0;
+
+        for (var ix=0; ix<lab_true.length; ix++) {
+            score += Math.pow(lab_true[ix] - lab_pred[ix], 2);
+        }
+        score = score / lab_true.length;
+        return score;
+    } else {
+        // return a negative score for wrong arrays
+        return -10;
+    }
+}
 
 router.post('/signup', function(req, res, next) {
     res.setHeader("Content-Type", "text/json");
@@ -79,6 +97,9 @@ router.post('/submission/:id/upload/:user', function(req, res, next) {
                 res.send(JSON.stringify({result:"error"}));
             } else {
                 res.send(JSON.stringify({result: "success"}));
+                sub.score = Scorer.get_score(req.params.id, sub._id);
+                console.log("score = " + score);
+                sub.save();
             }
         });
     });
