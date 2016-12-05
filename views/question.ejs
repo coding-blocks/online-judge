@@ -4,6 +4,14 @@
         <title>Question <%= num %></title>
         <% include ./partials/head %>
         <script type="text/javascript">
+            function downloadTrainingData() {
+                var filepath = "/data/<%= id %>_training.txt";
+                top.location.href = filepath;
+            }
+            function downloadSampleInput() {
+                top.location.href = "/data/<%= id %>_sample.txt";
+            }
+
             $(document).ready(function() {
                 var questionBody = $("#question-body");
                 $.get('/api/question/<%= id %>', function (data) {
@@ -37,21 +45,47 @@
             <% include ./partials/header %>
             <div class="panel panel-default" id="question-body">
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">Submit your code</div>
-                <div class="panel-body">
-                    <form ref="uploadForm"
-                        id="outputUploadForm"
-                        encType="multipart/form-data"
-                        method="post"
-                        action="/api/submission/<%= id %>/upload" >
-                        <div class="form-group">
-                           <input type="file" name="userOutput" />
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Downloads</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button onclick="downloadTrainingData()" type="button" class="btn btn-info" >Download Training Data</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button onclick="downloadSampleInput()" type="button" class="btn btn-info" >Download Sample Input</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" name="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Submit your code</div>
+                        <div class="panel-body">
+                            <form ref="uploadForm"
+                                id="outputUploadForm"
+                                encType="multipart/form-data"
+                                method="post"
+                                action="/api/submission/<%= id %>/upload" >
+                                <div class="form-group">
+                                    <input type="file" name="userOutput" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" name="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Leaderboard</div>
+                        <div class="panel-body list-group">
+                            <a class="list-group-item">rank 1</a>
+                            <a class="list-group-item">rank 2</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

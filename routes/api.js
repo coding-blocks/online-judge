@@ -68,4 +68,8 @@ router.post('/submission/:id/upload', function(req, res, next) {
     });
 });
 
+router.get('/leaderboard/:id', function(req, res, next) {
+    res.setHeader("Content-Type", "text/json");
+});
+
 module.exports = router;
