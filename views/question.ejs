@@ -22,6 +22,19 @@
                     questionBody.append(questionHeader);
                     questionBody.append(descHeader);
                 });
+                $.get('/api/leaderboard/<%= id %>', function(data) {
+                    console.log("leaderboard = " + JSON.stringify(data));
+                    var submissionContainer = $("#leaderboard-list");
+                    var submissions = data.data;
+                    var toAppend;
+                    for (var i = 0; i < submissions.length; ++i) {
+                        var submission = submissions[i];
+                        toAppend = "<a href=\"#\" class=\"list-group-item\">";
+                        toAppend += submission.user + " : " + submission.score;
+                        toAppend += "</a>";
+                        submissionContainer.append(toAppend);
+                    }
+                });
                 var uploadForm = $("#outputUploadForm");
                 uploadForm.on('submit', function(e) {
                     e.preventDefault();
@@ -81,9 +94,8 @@
                 <div class="col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">Leaderboard</div>
-                        <div class="panel-body list-group">
+                        <div class="panel-body list-group" id="leaderboard-list">
                             <a class="list-group-item">rank 1</a>
-                            <a class="list-group-item">rank 2</a>
                         </div>
                     </div>
                 </div>

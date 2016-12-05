@@ -58,12 +58,12 @@ router.post('/submission/:id/upload/:user', function(req, res, next) {
         console.log("no file uploaded");
         return;
     }
-    var submission = req.files.userOutput;
     var sub = new Submission({
         user: req.params.user,
         question_id: req.params.id,
     });
     sub.save(function(err) {
+        var submission = req.files.userOutput;
         submission.mv("./public/submissions/" + sub._id, function(err) {
             if (err) {
                 console.log("error while moving the file = " + err);
@@ -78,7 +78,13 @@ router.post('/submission/:id/upload/:user', function(req, res, next) {
 
 router.get('/leaderboard/:id', function(req, res, next) {
     res.setHeader("Content-Type", "text/json");
-
+    Submission.find({
+        question_id: req.params.id,
+    })
+    .sort({score: -1})
+    .exec(function(err, docs) {
+        res.send(JSON.stringify({result: "success", data: docs}));
+    });
 });
 
 module.exports = router;

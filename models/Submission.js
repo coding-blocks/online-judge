@@ -9,7 +9,7 @@ var SubmissionSchema = new mongoose.Schema({
   user: String,
   score: {type: Number, default: -1},
   output_file: {type: String, default: ""},
-  assignment_id: Number,
+  question_id: String,
   updated_at: { type: Date, default: Date.now },
 });
 
