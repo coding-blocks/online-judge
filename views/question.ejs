@@ -18,7 +18,7 @@
                 $.get('/api/question/<%= id %>', function (data) {
                     console.log(JSON.stringify(data));
                     var question = data.data;
-                    var questionHeader = "<div class=\"panel-heading\">Question <%= num %>: " + question.title + "</div>";
+                    var questionHeader = "<div class=\"panel-heading\">Question <%= num %>: <b>" + question.title + "</b></div>";
                     var descHeader = "<div class=\"panel-body\">" + question.description + "</div>";
                     questionBody.append(questionHeader);
                     questionBody.append(descHeader);
