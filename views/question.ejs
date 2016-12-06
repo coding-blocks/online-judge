@@ -8,6 +8,7 @@
                 var filepath = "/data/<%= id %>_training.txt";
                 top.location.href = filepath;
             }
+
             function downloadSampleInput() {
                 top.location.href = "/data/<%= id %>_sample.txt";
             }
@@ -27,12 +28,27 @@
                     var submissionContainer = $("#leaderboard-list");
                     var submissions = data.data;
                     var toAppend;
-                    for (var i = 0; i < submissions.length; ++i) {
+                    for (var i = 0; i < Math.min(submissions.length, 20); ++i) {
                         var submission = submissions[i];
                         toAppend = "<a href=\"#\" class=\"list-group-item\">";
                         toAppend += submission.user + " : " + submission.score;
                         toAppend += "</a>";
                         submissionContainer.append(toAppend);
+                    }
+                    var ownUserList = [];
+                    var j = 0;
+                    var ownListContainer = $("#self-score-list");
+                    for (var i = 0; i < submissions.length; ++i) {
+                        var submission = submissions[i];
+                        if (j == 10) break;
+                        if (submission.user == "<%= username %>") {
+                            ++j;
+                            toAppend = "<a href=\"#\" class=\"list-group-item\">";
+                            toAppend += submission.user + " : " + submission.score;
+                            toAppend += "</a>";
+                            ownListContainer.append(toAppend);
+                        }
+                        
                     }
                 });
                 var uploadForm = $("#outputUploadForm");
@@ -90,7 +106,12 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">My Score</div>
+                            <div class="panel-body list-group" id="self-score-list">
+                            </div>
+                        </div>
+                    </div>
                 <div class="col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">Leaderboard</div>
