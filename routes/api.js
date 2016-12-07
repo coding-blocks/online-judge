@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var router = express.Router();
 
@@ -115,6 +116,13 @@ router.get('/leaderboard/:id', function(req, res, next) {
     .exec(function(err, docs) {
         res.send(JSON.stringify({result: "success", data: docs}));
     });
+});
+
+router.get('/files/:file', function(req, res, next) {
+    var file = "./public/data/" + req.params.file
+    console.log("filename = " + file);
+    res.setHeader("Content-Type", "application/x-download-please");
+    res.download(file);
 });
 
 module.exports = router;
