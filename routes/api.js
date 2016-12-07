@@ -118,11 +118,11 @@ router.get('/leaderboard/:id', function(req, res, next) {
     });
 });
 
-router.get('/files/:file', function(req, res, next) {
+router.get('/files/:file/:name', function(req, res, next) {
     var file = "./public/data/" + req.params.file
     console.log("filename = " + file);
     res.setHeader("Content-Type", "application/x-download-please");
-    res.download(file);
+    res.download(file, req.params.name);
 });
 
 module.exports = router;

@@ -5,12 +5,12 @@
         <% include ./partials/head %>
         <script type="text/javascript">
             function downloadTrainingData() {
-                var filepath = "/api/files/<%= id %>_training.txt";
+                var filepath = "/api/files/<%= id %>_training.txt/train.csv";
                 top.location.href = filepath;
             }
 
             function downloadSampleInput() {
-                top.location.href = "/api/files/<%= id %>_sample.txt";
+                top.location.href = "/api/files/<%= id %>_sample.txt/test.csv";
             }
 
             $(document).ready(function() {
