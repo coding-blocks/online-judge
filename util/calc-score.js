@@ -39,7 +39,7 @@ function get_csv_array(file_loc) {
 }
 
 exports.get_score = function(question_id, submission_id) {
-	var sample_arr = get_csv_array('./public/data/' + question_id + '_sample.txt');
+	var sample_arr = get_csv_array('./public/data/' + question_id + '_pred_data.csv');
 	// console.log("Sample array = " + JSON.stringify(sample_arr));
 	var student_array = get_csv_array('./public/submissions/' + submission_id);
 	// console.log("student array = " + JSON.stringify(student_array));
