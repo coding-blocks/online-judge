@@ -92,13 +92,21 @@ router.post('/submission/:id/upload/:user', function(req, res, next) {
 
 router.get('/leaderboard/:id', function(req, res, next) {
     res.setHeader("Content-Type", "text/json");
-    Submission.find({
-        question_id: req.params.id,
-    })
-    .sort({score: -1})
-    .exec(function(err, docs) {
-        res.send(JSON.stringify({result: "success", data: docs}));
-    });
+    Submission.aggregate([
+            {
+                $match : {question_id : req.params.id}
+            },
+            {
+                $group: {
+                    _id : "$user",
+                    score : {$max: "$score"}
+                }
+            }
+        ],
+        function(err,docs) {
+            if (err) console.log(err);
+            console.log(JSON.stringify(docs));
+        });
 });
 
 router.get('/files/:file/:name', function(req, res, next) {
