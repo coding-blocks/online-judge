@@ -35,20 +35,19 @@
                         toAppend += "</a>";
                         submissionContainer.append(toAppend);
                     }
-                    var ownUserList = [];
-                    var j = 0;
+
+                });
+                $.get('/api/submissions/<%= username %>', function (data) {
                     var ownListContainer = $("#self-score-list");
+                    var toAppend;
+                    var submissions = data.data;
+                    var submission;
                     for (var i = 0; i < submissions.length; ++i) {
-                        var submission = submissions[i];
-                        if (j == 10) break;
-                        if (submission.user == "<%= username %>") {
-                            ++j;
-                            toAppend = "<a href=\"#\" class=\"list-group-item\">";
-                            toAppend += submission.user + " : " + submission.score;
-                            toAppend += "</a>";
-                            ownListContainer.append(toAppend);
-                        }
-                        
+                        submission = submissions[i];
+                        toAppend = "<a href=\"#\" class=\"list-group-item\">";
+                        toAppend += submission.user + " : " + submission.score;
+                        toAppend += "</a>";
+                        ownListContainer.append(toAppend);
                     }
                 });
                 var uploadForm = $("#outputUploadForm");

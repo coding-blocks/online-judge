@@ -112,6 +112,19 @@ router.get('/leaderboard/:id', function(req, res, next) {
         });
 });
 
+router.get('/submissions/:user', function(req, res, next) {
+    res.setHeader("Content-Type", "text/json");
+    Submission.find({user: req.params.user})
+        .sort({updated_at : -1})
+        .exec(function (err, docs) {
+            if (err) {
+                console.log("error = " + err);
+                next(err);
+            }
+            res.send(JSON.stringify({result: "success", data: docs}));
+        });
+});
+
 router.get('/files/:file/:name', function(req, res, next) {
     var file = "./public/data/" + req.params.file
     console.log("filename = " + file);
