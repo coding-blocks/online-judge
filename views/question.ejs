@@ -31,7 +31,7 @@
                     for (var i = 0; i < Math.min(submissions.length, 20); ++i) {
                         var submission = submissions[i];
                         toAppend = "<a href=\"#\" class=\"list-group-item\">";
-                        toAppend += submission.user + " : " + submission.score;
+                        toAppend += submission._id + " : " + submission.score;
                         toAppend += "</a>";
                         submissionContainer.append(toAppend);
                     }

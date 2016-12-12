@@ -101,6 +101,9 @@ router.get('/leaderboard/:id', function(req, res, next) {
                     _id : "$user",
                     score : {$max: "$score"}
                 }
+            },
+            {
+                $sort : {score : -1}
             }
         ],
         function(err,docs) {
