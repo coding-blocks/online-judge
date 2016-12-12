@@ -105,7 +105,7 @@ router.get('/leaderboard/:id', function(req, res, next) {
         ],
         function(err,docs) {
             if (err) console.log(err);
-            console.log(JSON.stringify(docs));
+            res.send(JSON.stringify({result: "success", data: docs}));
         });
 });
 
